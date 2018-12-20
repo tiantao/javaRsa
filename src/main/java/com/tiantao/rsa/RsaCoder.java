@@ -1,4 +1,4 @@
-package com.tiantao.rsa.server;
+package com.tiantao.rsa;
 
 import org.apache.commons.codec.binary.Base64;
 
