@@ -48,4 +48,25 @@ public class RsaServerUtils {
         return Base64.encodeBase64String(cipher.doFinal(data));
     }
 
+    /**
+     * 私钥加密
+     *
+     * @param decryptStr 待解密数据
+     * @return byte[] 加密数据
+     */
+    public static String  decryptByPrivateKey(String decryptStr) throws Exception {
+
+
+        byte[] data = Base64.decodeBase64(decryptStr);
+        //取得私钥
+        PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(PRIVATE_KEY));
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        //生成私钥
+        PrivateKey privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
+        //数据加密
+        Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return new String(cipher.doFinal(data));
+    }
+
 }

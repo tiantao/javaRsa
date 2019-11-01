@@ -48,4 +48,29 @@ public class RsaClientUtils {
         cipher.init(Cipher.DECRYPT_MODE, pubKey);
         return new String(cipher.doFinal(data));
     }
+
+    /**
+     * 公钥加密
+     *
+     * @param encryptStr 待加密数据
+     * @return byte[] 解密数据
+     */
+    public static String encryptByPublicKey(String encryptStr) throws Exception {
+
+        byte[] data = encryptStr.getBytes();
+        //实例化密钥工厂
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        //初始化公钥
+        //密钥材料转换
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.decodeBase64(PUBLIC_KEY));
+        //产生公钥
+        PublicKey pubKey = keyFactory.generatePublic(x509KeySpec);
+        //数据加密
+        Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+        cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+        return Base64.encodeBase64String(cipher.doFinal(data));
+
+    }
+
+
 }

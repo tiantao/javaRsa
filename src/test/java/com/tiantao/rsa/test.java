@@ -11,10 +11,9 @@ import org.junit.Test;
  */
 public class test {
 
-
     @Test
-    public void testEncryptByPrivateKey(){
-        String str = "测试加密";
+    public void testEncryptByPrivateKey() {
+        String str = "test encrypt";
         try {
             String encryptStr = RsaServerUtils.encryptByPrivateKey(str);
             System.out.println(encryptStr);
@@ -26,17 +25,38 @@ public class test {
 
 
     @Test
-    public void testdecryptByPublicKey(){
-        String str = "这是一个json";
+    public void testdecryptByPublicKey() {
+        String str = "this is json";
         try {
             String encryptStr = RsaServerUtils.encryptByPrivateKey(str);
+            //String encryptStr = RsaClientUtils.encryptByPublicKey(str);
             System.out.println(encryptStr);
             String decryptStr = RsaClientUtils.decryptByPublicKey(encryptStr);
             System.out.println(decryptStr);
+            assert str.equals(decryptStr);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @Test
+    public void testencryptByPublicKey() {
+        String str = "{" +
+                "    \"password\":\"1a@12345\"," +
+                "    \"userName\":\"tiantaoc\"," +
+                "    \"timestamp\":\"1235124453\"" +
+                "}";
+        System.out.println(System.currentTimeMillis());
+        try {
+            String encryptStr = RsaClientUtils.encryptByPublicKey(str);
+            System.out.println(encryptStr);
+
+            String decryptStr = RsaServerUtils.decryptByPrivateKey(encryptStr);
+            System.out.println(decryptStr);
+            assert str.equals(decryptStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
